@@ -3,7 +3,9 @@
   "conditions": {
     "ref_name": {
       "exclude": [],
-      "include": ["refs/tags/*"]
+      "include": [
+        "refs/tags/**"
+      ]
     }
   },
   "enforcement": "active",
