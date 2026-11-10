@@ -6,3 +6,5 @@ documentation implies.
 
 Every tag here was pushed at a rule on purpose, and the tag rulesets make them
 undeletable. Nothing here is a release of anything.
+
+The second commit exists so a tag can be moved between two commits.
