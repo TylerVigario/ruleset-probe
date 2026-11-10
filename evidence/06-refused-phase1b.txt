@@ -1,0 +1,39 @@
+head=f4f0176 parent=9082376  2026-11-10T06:22:37Z
+rulesets: 26920751,26920814
+  tag-protection: include=["refs/tags/*"] rules=["deletion","non_fast_forward","update"] bypass=0
+  version-tag-protection: include=["refs/tags/v*"] rules=["creation"] bypass=0
+-- creating v tags
+REFUSED  git push creates v3.0.0 :: remote: error: GH013: Repository rule violations found for refs/tags/v3.0.0. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fv3.0.0 remote: remote: - Cannot create ref due to creations being restricted. remote: To https://github.com/TylerV
+REFUSED  refs API creates v3.0.1 :: {"message":"Reference update failed","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"422"}gh: Reference update failed (HTTP 422)
+REFUSED  publishing a release creates v3.0.2 :: HTTP 422: Validation Failed (https://api.github.com/repos/TylerVigario/ruleset-probe/releases) pre_receive Repository rule violations found Cannot create ref due to creations being restricted. Published releases must have a valid tag
+ALLOWED  draft release v3.0.3
+REFUSED  publishing draft v3.0.3 creates its tag :: HTTP 422: Validation Failed (https://api.github.com/repos/TylerVigario/ruleset-probe/releases/440012716) pre_receive Repository rule violations found Cannot create ref due to creations being restricted. Published releases must have a valid tag
+   release v3.0.2: []
+   release v3.0.3: [{"draft":true,"immutable":false}]
+-- a slashed v tag
+ALLOWED  refs API creates v3/nested
+ALLOWED  refs API fast-forwards v3/nested
+ALLOWED  git push forces v3/nested back
+ALLOWED  refs API deletes v3/nested
+-- an ordinary tag
+ALLOWED  refs API creates q3
+REFUSED  refs API fast-forwards q3 :: {"message":"Repository rule violations found\n\nCannot update this protected ref.\n\n","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Repository rule violations found Cannot update this protected ref. (HTTP 422)
+REFUSED  git push forces q3 :: remote: error: GH013: Repository rule violations found for refs/tags/q3. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fq3 remote: remote: - Cannot update this protected ref. remote: To https://github.com/TylerVigario/ruleset-probe.git ! 
+REFUSED  refs API deletes q3 :: {"message":"Repository rule violations found\n\nCannot delete this tag\n\n","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Repository rule violations found Cannot delete this tag (HTTP 422)
+-- a slashed ordinary tag
+REFUSED  refs API creates q3/nested :: {"message":"Reference update failed","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"422"}gh: Reference update failed (HTTP 422)
+REFUSED  refs API fast-forwards q3/nested :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+REFUSED  git push forces q3/nested back :: To https://github.com/TylerVigario/ruleset-probe.git ! [remote rejected] 90823769a16415bd0a753c84a0dd1491a7a148cf -> q3/nested (cannot lock ref 'refs/tags/q3/nested': 'refs/tags/q3' exists; cannot create 'refs/tags/q3/nested') error: failed to push some refs to 'https://github.com/TylerVigario/rules
+REFUSED  refs API deletes q3/nested :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+
+tags now:
+refs/tags/q1 45b8b8e
+refs/tags/q3 9082376
+refs/tags/v1.0.0 45b8b8e
+refs/tags/v1.0.1 45b8b8e
+refs/tags/v1.0.2 9082376
+refs/tags/v1.0.3 9082376
+releases now:
+v3.0.3 draft=true immutable=false
+v1.0.3 draft=false immutable=false
+v1.0.2 draft=false immutable=false

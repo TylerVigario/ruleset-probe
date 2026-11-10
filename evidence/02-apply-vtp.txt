@@ -1,0 +1,2 @@
+== apply version-tag-protection
+{"bypass":[{"actor_id":5,"actor_type":"RepositoryRole","bypass_mode":"always"}],"current_user_can_bypass":"always","enforcement":"active","id":26920814,"include":["refs/tags/v*"],"name":"version-tag-protection","rules":["creation"]}

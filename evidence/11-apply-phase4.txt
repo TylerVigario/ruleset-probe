@@ -1,0 +1,2 @@
+{"include":["refs/tags/**/*"],"name":"tag-protection"}
+{"include":["refs/tags/v*","refs/tags/v*/**/*"],"name":"version-tag-protection"}

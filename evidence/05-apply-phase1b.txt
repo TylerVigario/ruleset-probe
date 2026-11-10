@@ -1,0 +1,1 @@
+{"bypass":[],"current_user_can_bypass":"never","include":["refs/tags/v*"],"name":"version-tag-protection","rules":["creation"]}

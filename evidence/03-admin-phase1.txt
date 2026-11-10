@@ -1,0 +1,26 @@
+head=9082376 parent=45b8b8e  2026-11-10T06:20:39Z
+-- creating v tags (admin bypasses version-tag-protection)
+ALLOWED  git push creates v1.0.0
+ALLOWED  refs API creates v1.0.1
+ALLOWED  publishing a release creates v1.0.2
+ALLOWED  draft release v1.0.3
+ALLOWED  publishing draft v1.0.3 creates its tag
+-- moving and deleting them (tag-protection, no bypass for anyone)
+REFUSED  git push fast-forwards v1.0.0 :: To https://github.com/TylerVigario/ruleset-probe.git  ! [rejected]        90823769a16415bd0a753c84a0dd1491a7a148cf -> v1.0.0 (already exists) error: failed to push some refs to 'https://github.com/TylerVigario/ruleset-probe.git' hint: Updates were rejected because the tag already exists in the remote.
+REFUSED  git push forces v1.0.0 :: remote: error: GH013: Repository rule violations found for refs/tags/v1.0.0.         remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fv1.0.0         remote:  remote: - Cannot update this protected ref.         remote:  To https://github.com/TylerVigario/ruleset-probe.git  ! [remote rejected] 90823769a16415bd0a753c84a0dd1491a7a148cf -> v1.
+REFUSED  refs API fast-forwards v1.0.1 :: {"message":"Repository rule violations found\n\nCannot update this protected ref.\n\n","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Repository rule violations found  Cannot update this protected ref.   (HTTP 422)
+REFUSED  git push deletes v1.0.1 :: remote: error: GH013: Repository rule violations found for refs/tags/v1.0.1.         remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fv1.0.1         remote:  remote: - Cannot delete this tag         remote:  To https://github.com/TylerVigario/ruleset-probe.git  ! [remote rejected] v1.0.1 (push declined due to repository rule violations) e
+REFUSED  refs API deletes v1.0.1 :: {"message":"Repository rule violations found\n\nCannot delete this tag\n\n","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Repository rule violations found  Cannot delete this tag   (HTTP 422)
+-- an ordinary tag
+ALLOWED  git push creates q1
+REFUSED  git push fast-forwards q1 :: To https://github.com/TylerVigario/ruleset-probe.git  ! [rejected]        90823769a16415bd0a753c84a0dd1491a7a148cf -> q1 (already exists) error: failed to push some refs to 'https://github.com/TylerVigario/ruleset-probe.git' hint: Updates were rejected because the tag already exists in the remote.
+
+tags now:
+refs/tags/q1 45b8b8e
+refs/tags/v1.0.0 45b8b8e
+refs/tags/v1.0.1 45b8b8e
+refs/tags/v1.0.2 9082376
+refs/tags/v1.0.3 9082376
+releases now:
+v1.0.3 draft=false immutable=false author=TylerVigario
+v1.0.2 draft=false immutable=false author=TylerVigario

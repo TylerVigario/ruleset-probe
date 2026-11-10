@@ -1,0 +1,28 @@
+head=90823769a16415bd0a753c84a0dd1491a7a148cf parent=45b8b8e0ee6100eae35fb921c8b78a38374e5b4d
+-- creating v tags (version-tag-protection, no bypass for this actor)
+REFUSED  create v2.0.0 by publishing a release :: failed to run git: fatal: not a git repository (or any of the parent directories): .git
+REFUSED  create draft release v2.0.1 :: failed to run git: fatal: not a git repository (or any of the parent directories): .git
+REFUSED  publish draft v2.0.1, which creates its tag :: failed to run git: fatal: not a git repository (or any of the parent directories): .git
+REFUSED  create v2.0.2 through the refs API :: {"message":"Resource not accessible by integration","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"403"}gh: Resource not accessible by integration (HTTP 403)
+REFUSED  create v2/nested through the refs API :: {"message":"Resource not accessible by integration","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"403"}gh: Resource not accessible by integration (HTTP 403)
+REFUSED  fast-forward v2/nested :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+-- other tags (tag-protection only)
+REFUSED  create p2 through the refs API :: {"message":"Resource not accessible by integration","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"403"}gh: Resource not accessible by integration (HTTP 403)
+REFUSED  fast-forward p2 :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+REFUSED  delete p2 :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+REFUSED  create p2/nested through the refs API :: {"message":"Resource not accessible by integration","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"403"}gh: Resource not accessible by integration (HTTP 403)
+REFUSED  fast-forward p2/nested :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+REFUSED  delete p2/nested :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+-- the admin's v tag
+REFUSED  fast-forward v1.0.1 :: {"message":"Repository rule violations found\n\nCannot update this protected ref.\n\n","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Repository rule violations found  Cannot update this protected ref.   (HTTP 422)
+REFUSED  delete v1.0.1 :: {"message":"Repository rule violations found\n\nCannot delete this tag\n\n","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Repository rule violations found  Cannot delete this tag   (HTTP 422)
+tags now:
+refs/tags/q1 45b8b8e
+refs/tags/v1.0.0 45b8b8e
+refs/tags/v1.0.1 45b8b8e
+refs/tags/v1.0.2 9082376
+refs/tags/v1.0.3 9082376
+releases now:
+v1.0.3 draft=false immutable=false
+v1.0.2 draft=false immutable=false
+probe	Complete job	﻿2026-11-10T06:21:18.4874039Z Cleaning up orphan processes

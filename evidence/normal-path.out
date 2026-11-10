@@ -1,0 +1,10 @@
+== N1 nothing to finish: main at 289a8b6, the normal path
+   HEAD=289a8b6  newest v tag=v1.21.1
+   exit=0
+   | npx stub: GH_TOKEN is unset
+   | [32;1mINFO [0m [1m[90mgit_cliff[39m[0m > Using configuration from: cliff.toml
+   | [33;1mWARN [0m [1m[90mgit_cliff_core::changelog[39m[0m > [1m[90mprocess_commits[39m[0m[1m[90m: [39m[0m1 commit(s) were skipped due to parse error(s) (run with `-vv` for details)
+   | last=v1.21.1  main=v1.21.1  bump=auto  next=v1.21.2
+   > release=true
+   > version=1.21.2
+   > tag=v1.21.2

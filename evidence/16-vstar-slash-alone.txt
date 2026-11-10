@@ -1,0 +1,4 @@
+applied: include=["refs/tags/v*/**/*"] bypass=0
+ALLOWED  refs API creates v8.0.0
+REFUSED  refs API creates v8/nested :: {"message":"Reference update failed","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","sta
+restored: include=["refs/tags/v*","refs/tags/v*/**/*"] bypass=[{"actor_id":5,"actor_type":"RepositoryRole","bypass_mode":"always"}]

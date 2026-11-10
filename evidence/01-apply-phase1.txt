@@ -1,0 +1,4 @@
+== apply tag-protection
+{"bypass":[],"current_user_can_bypass":"never","enforcement":"active","id":26920751,"include":["refs/tags/*"],"name":"tag-protection","rules":["deletion","non_fast_forward","update"]}
+== apply version-tag-protection
+{"message":"Validation Failed","errors":["Actor GitHub Actions integration must be part of the ruleset source or owner organization"],"documentation_url":"https://docs.github.com/rest/repos/rules#create-a-repository-ruleset","status":"422"}gh: Validation Failed (HTTP 422)

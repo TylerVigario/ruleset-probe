@@ -1,0 +1,53 @@
+run at 2026-11-10T06:34:10Z
+== W1 genuine: main one behind the real v1.21.1 release commit — main's Decide
+   HEAD=cc4824e  newest v tag=v1.21.1
+   exit=0
+   | Finishing v1.21.1: it is published, and main has not moved to it.
+   > release=false
+   > finish=true
+   > tag=v1.21.1
+   > oid=812fbab6297d57633c9dd20c36274cbc7c15750c
+== W1 genuine: main one behind the real v1.21.1 release commit — the branch's Decide
+   HEAD=cc4824e  newest v tag=v1.21.1
+   exit=0
+   | Finishing v1.21.1: it is published, and main has not moved to it.
+   > release=false
+   > finish=true
+   > tag=v1.21.1
+   > oid=812fbab6297d57633c9dd20c36274cbc7c15750c
+== W2 planted: v1.21.2 on a squash merge, no release — main's Decide
+   HEAD=9556f7d  newest v tag=v1.21.2
+   exit=0
+   | Finishing v1.21.2: it is published, and main has not moved to it.
+   > release=false
+   > finish=true
+   > tag=v1.21.2
+   > oid=6cc9dd1775b5efb5ab4d614360d5dcb86c884c6a
+== W2 planted: v1.21.2 on a squash merge, no release — the branch's Decide
+   HEAD=9556f7d  newest v tag=v1.21.2
+   exit=1
+   | ::error::v1.21.2 has no published release, so there is nothing to finish: gh: Not Found (HTTP 404) 
+== W3 a published release's name on a squash merge — main's Decide
+   HEAD=9556f7d  newest v tag=v1.21.1
+   exit=0
+   | Finishing v1.21.1: it is published, and main has not moved to it.
+   > release=false
+   > finish=true
+   > tag=v1.21.1
+   > oid=6cc9dd1775b5efb5ab4d614360d5dcb86c884c6a
+== W3 a published release's name on a squash merge — the branch's Decide
+   HEAD=9556f7d  newest v tag=v1.21.1
+   exit=1
+   | ::error::v1.21.1 names 6cc9dd1775b5efb5ab4d614360d5dcb86c884c6a, which is not a release commit: author, signed and reason are "TylerVigario true valid", expected "website-release[bot] true valid".
+== W4 a published release's name on another release's commit — main's Decide
+   HEAD=ee05c30  newest v tag=v1.21.1
+   exit=0
+   | Finishing v1.21.1: it is published, and main has not moved to it.
+   > release=false
+   > finish=true
+   > tag=v1.21.1
+   > oid=01851a1023b03f819b4af809b5d25daeaf25d267
+== W4 a published release's name on another release's commit — the branch's Decide
+   HEAD=ee05c30  newest v tag=v1.21.1
+   exit=1
+   | ::error::v1.21.1's commit sets package.json to version 1.21.0, not 1.21.1.

@@ -1,0 +1,37 @@
+base=30f41b9  2026-11-10T06:34:27Z
+== S1 good: a constructed commit changing only the version and changelog
+   HEAD=30f41b9  newest v tag=v9.2.1
+   exit=0
+   | Finishing v9.2.1: it is published, and main has not moved to it.
+   > release=false
+   > finish=true
+   > tag=v9.2.1
+   > oid=60ac74362cfb2c01ed60fec916f499b1e5010c5e
+== S1' the same, expecting the website's bot as author
+   HEAD=30f41b9  newest v tag=v9.2.1
+   exit=1
+   | ::error::v9.2.1's release is not one publish made: draft and author are "false TylerVigario", expected "false website-release[bot]".
+== S2 an extra file changed
+   HEAD=30f41b9  newest v tag=v9.2.2
+   exit=1
+   | ::error::v9.2.2's commit changes CHANGELOG.md EXTRA.md package-lock.json package.json; a release commit changes CHANGELOG.md, package-lock.json and package.json, and nothing else.
+== S3 package.json changed beyond its version
+   HEAD=30f41b9  newest v tag=v9.2.3
+   exit=1
+   | ::error::v9.2.3's commit changes package.json beyond its version.
+== S4 package-lock.json changed beyond its version
+   HEAD=30f41b9  newest v tag=v9.2.4
+   exit=1
+   | ::error::v9.2.4's commit changes package-lock.json beyond its version.
+== S5 package-lock.json's root package left at the old version
+   HEAD=30f41b9  newest v tag=v9.2.5
+   exit=1
+   | ::error::v9.2.5's commit sets package-lock.json to version 0.0.0 9.2.5, not 9.2.5.
+== S6 the release is still a draft
+   HEAD=30f41b9  newest v tag=v9.2.6
+   exit=1
+   | ::error::v9.2.6 has no published release, so there is nothing to finish: gh: Not Found (HTTP 404) 
+== S7 an unsigned commit through the git data API
+   HEAD=30f41b9  newest v tag=v9.2.7
+   exit=1
+   | ::error::v9.2.7 names 490d990ab7a2ead39f3b1f53adc0a27abe80dff7, which is not a release commit: author, signed and reason are "TylerVigario false unsigned", expected "TylerVigario true valid".

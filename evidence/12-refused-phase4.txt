@@ -1,0 +1,60 @@
+head=42b07d2 parent=d3841f5  2026-11-10T06:25:18Z
+rulesets: 26920751,26920814
+  tag-protection: include=["refs/tags/**/*"] rules=["deletion","non_fast_forward","update"] bypass=0
+  version-tag-protection: include=["refs/tags/v*","refs/tags/v*/**/*"] rules=["creation"] bypass=0
+-- creating v tags
+REFUSED  git push creates v6.0.0 :: remote: error: GH013: Repository rule violations found for refs/tags/v6.0.0. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fv6.0.0 remote: remote: - Cannot create ref due to creations being restricted. remote: To https://github.com/TylerV
+REFUSED  refs API creates v6.0.1 :: {"message":"Reference update failed","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"422"}gh: Reference update failed (HTTP 422)
+REFUSED  publishing a release creates v6.0.2 :: HTTP 422: Validation Failed (https://api.github.com/repos/TylerVigario/ruleset-probe/releases) pre_receive Repository rule violations found Cannot create ref due to creations being restricted. Published releases must have a valid tag
+ALLOWED  draft release v6.0.3
+REFUSED  publishing draft v6.0.3 creates its tag :: HTTP 422: Validation Failed (https://api.github.com/repos/TylerVigario/ruleset-probe/releases/440014405) pre_receive Repository rule violations found Cannot create ref due to creations being restricted. Published releases must have a valid tag
+   release v6.0.2: []
+   release v6.0.3: [{"draft":true,"immutable":false}]
+-- an ordinary tag
+ALLOWED  refs API creates q6
+REFUSED  refs API fast-forwards q6 :: {"message":"Repository rule violations found\n\nCannot update this protected ref.\n\n","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Repository rule violations found Cannot update this protected ref. (HTTP 422)
+REFUSED  git push forces q6 :: remote: error: GH013: Repository rule violations found for refs/tags/q6. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fq6 remote: remote: - Cannot update this protected ref. remote: To https://github.com/TylerVigario/ruleset-probe.git ! 
+REFUSED  refs API deletes q6 :: {"message":"Repository rule violations found\n\nCannot delete this tag\n\n","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Repository rule violations found Cannot delete this tag (HTTP 422)
+-- slashed tags: created at parent, fast-forwarded to head, forced to grandparent, deleted
+REFUSED  refs API creates v6/nested :: {"message":"Reference update failed","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"422"}gh: Reference update failed (HTTP 422)
+REFUSED  refs API fast-forwards v6/nested :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+REFUSED  git push forces v6/nested to grandparent :: remote: error: GH013: Repository rule violations found for refs/tags/v6/nested. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fv6%2Fnested remote: remote: - Cannot create ref due to creations being restricted. remote: To https://github.co
+REFUSED  refs API deletes v6/nested :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+REFUSED  refs API creates v6/a/b :: {"message":"Reference update failed","documentation_url":"https://docs.github.com/rest/git/refs#create-a-reference","status":"422"}gh: Reference update failed (HTTP 422)
+REFUSED  refs API fast-forwards v6/a/b :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+REFUSED  git push forces v6/a/b to grandparent :: remote: error: GH013: Repository rule violations found for refs/tags/v6/a/b. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fv6%2Fa%2Fb remote: remote: - Cannot create ref due to creations being restricted. remote: To https://github.com/Ty
+REFUSED  refs API deletes v6/a/b :: {"message":"Reference does not exist","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Reference does not exist (HTTP 422)
+ALLOWED  refs API creates s6/nested
+REFUSED  refs API fast-forwards s6/nested :: {"message":"Repository rule violations found\n\nCannot update this protected ref.\n\n","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Repository rule violations found Cannot update this protected ref. (HTTP 422)
+REFUSED  git push forces s6/nested to grandparent :: remote: error: GH013: Repository rule violations found for refs/tags/s6/nested. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fs6%2Fnested remote: remote: - Cannot force-push to this tag remote: remote: - Cannot update this protected ref.
+REFUSED  refs API deletes s6/nested :: {"message":"Repository rule violations found\n\nCannot delete this tag\n\n","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Repository rule violations found Cannot delete this tag (HTTP 422)
+ALLOWED  refs API creates s6/a/b
+REFUSED  refs API fast-forwards s6/a/b :: {"message":"Repository rule violations found\n\nCannot update this protected ref.\n\n","documentation_url":"https://docs.github.com/rest/git/refs#update-a-reference","status":"422"}gh: Repository rule violations found Cannot update this protected ref. (HTTP 422)
+REFUSED  git push forces s6/a/b to grandparent :: remote: error: GH013: Repository rule violations found for refs/tags/s6/a/b. remote: Review all repository rules at https://github.com/TylerVigario/ruleset-probe/rules?ref=refs%2Ftags%2Fs6%2Fa%2Fb remote: remote: - Cannot force-push to this tag remote: remote: - Cannot update this protected ref. rem
+REFUSED  refs API deletes s6/a/b :: {"message":"Repository rule violations found\n\nCannot delete this tag\n\n","documentation_url":"https://docs.github.com/rest/git/refs#delete-a-reference","status":"422"}gh: Repository rule violations found Cannot delete this tag (HTTP 422)
+
+tags now:
+refs/tags/q1 45b8b8e
+refs/tags/q3 9082376
+refs/tags/q4 f4f0176
+refs/tags/q5 6c9d43b
+refs/tags/q6 d3841f5
+refs/tags/s5/nested 6c9d43b
+refs/tags/s6/a/b d3841f5
+refs/tags/s6/nested d3841f5
+refs/tags/v1.0.0 45b8b8e
+refs/tags/v1.0.1 45b8b8e
+refs/tags/v1.0.2 9082376
+refs/tags/v1.0.3 9082376
+refs/tags/v5.0.0 6c9d43b
+refs/tags/v5.0.1 6c9d43b
+refs/tags/v5.0.2 d3841f5
+refs/tags/v5.0.3 d3841f5
+releases now:
+v6.0.3 draft=true immutable=false
+v4.0.3 draft=true immutable=false
+v3.0.3 draft=true immutable=false
+v5.0.3 draft=false immutable=false
+v5.0.2 draft=false immutable=false
+v1.0.3 draft=false immutable=false
+v1.0.2 draft=false immutable=false
