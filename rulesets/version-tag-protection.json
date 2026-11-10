@@ -1,0 +1,23 @@
+{
+  "bypass_actors": [
+    {
+      "actor_id": 15368,
+      "actor_type": "Integration",
+      "bypass_mode": "always"
+    }
+  ],
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": ["refs/tags/v*"]
+    }
+  },
+  "enforcement": "active",
+  "name": "version-tag-protection",
+  "rules": [
+    {
+      "type": "creation"
+    }
+  ],
+  "target": "tag"
+}

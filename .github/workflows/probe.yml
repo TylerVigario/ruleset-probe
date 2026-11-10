@@ -1,0 +1,62 @@
+name: probe
+
+# Each attempt is made with this run's GITHUB_TOKEN, which acts as the
+# GitHub Actions app (integration 15368) — the stand-in here for a release
+# App. Every attempt is reported, allowed or refused; none fails the job.
+
+on:
+  workflow_dispatch:
+    inputs:
+      n:
+        description: "A number unique to this run, used in every tag name"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Attempts as the Actions app
+        env:
+          GH_TOKEN: ${{ github.token }}
+          N: ${{ inputs.n }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -u
+          head=$(gh api "repos/$REPO/commits?per_page=2" --jq '.[0].sha')
+          parent=$(gh api "repos/$REPO/commits?per_page=2" --jq '.[1].sha')
+          echo "head=$head parent=$parent"
+          try() {
+            local label=$1
+            shift
+            if out=$("$@" 2>&1); then
+              echo "ALLOWED  $label"
+            else
+              echo "REFUSED  $label :: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-400)"
+            fi
+          }
+          try "create v$N.0.0 by publishing a release" \
+            gh release create "v$N.0.0" --target "$head" --title probe --notes probe
+          try "create draft release v$N.0.1" \
+            gh release create "v$N.0.1" --draft --target "$head" --title probe --notes probe
+          try "publish draft v$N.0.1 (creates its tag)" \
+            gh release edit "v$N.0.1" --draft=false
+          try "create v$N.0.2 at parent through the refs API" \
+            gh api "repos/$REPO/git/refs" -f ref="refs/tags/v$N.0.2" -f sha="$parent"
+          try "fast-forward v$N.0.2 to head" \
+            gh api -X PATCH "repos/$REPO/git/refs/tags/v$N.0.2" -f sha="$head" -F force=false
+          try "force v$N.0.2 to head" \
+            gh api -X PATCH "repos/$REPO/git/refs/tags/v$N.0.2" -f sha="$head" -F force=true
+          try "delete v$N.0.2" \
+            gh api -X DELETE "repos/$REPO/git/refs/tags/v$N.0.2"
+          try "create v$N/nested at parent" \
+            gh api "repos/$REPO/git/refs" -f ref="refs/tags/v$N/nested" -f sha="$parent"
+          try "fast-forward v$N/nested to head" \
+            gh api -X PATCH "repos/$REPO/git/refs/tags/v$N/nested" -f sha="$head" -F force=false
+          echo
+          echo "tags now:"
+          gh api "repos/$REPO/git/matching-refs/tags/v$N" --jq '.[] | "\(.ref) \(.object.sha[0:7])"'
+          echo "releases now:"
+          gh api "repos/$REPO/releases" --jq '.[] | "\(.tag_name) draft=\(.draft) immutable=\(.immutable)"'
