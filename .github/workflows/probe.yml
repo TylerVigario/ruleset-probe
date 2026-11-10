@@ -1,14 +1,19 @@
 name: probe
 
 # Each attempt is made with this run's GITHUB_TOKEN, which acts as the
-# GitHub Actions app (integration 15368) — the stand-in here for a release
-# App. Every attempt is reported, allowed or refused; none fails the job.
+# GitHub Actions app: an actor neither tag ruleset lets bypass. The
+# repository admin is version-tag-protection's bypass actor and tests its
+# side from outside. Every attempt is reported, allowed or refused; none
+# fails the job.
 
 on:
   workflow_dispatch:
     inputs:
       n:
         description: "A number unique to this run, used in every tag name"
+        required: true
+      admin-tag:
+        description: "A v tag the admin created, which this run tries to move and delete"
         required: true
 
 permissions:
@@ -22,6 +27,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           N: ${{ inputs.n }}
+          ADMIN_TAG: ${{ inputs.admin-tag }}
           REPO: ${{ github.repository }}
         run: |
           set -u
@@ -37,26 +43,35 @@ jobs:
               echo "REFUSED  $label :: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-400)"
             fi
           }
+          create() { gh api "repos/$REPO/git/refs" -f ref="refs/tags/$1" -f sha="$2"; }
+          ff() { gh api -X PATCH "repos/$REPO/git/refs/tags/$1" -f sha="$2" -F force=false; }
+          del() { gh api -X DELETE "repos/$REPO/git/refs/tags/$1"; }
+
+          echo "-- creating v tags (version-tag-protection, no bypass for this actor)"
           try "create v$N.0.0 by publishing a release" \
             gh release create "v$N.0.0" --target "$head" --title probe --notes probe
           try "create draft release v$N.0.1" \
             gh release create "v$N.0.1" --draft --target "$head" --title probe --notes probe
-          try "publish draft v$N.0.1 (creates its tag)" \
+          try "publish draft v$N.0.1, which creates its tag" \
             gh release edit "v$N.0.1" --draft=false
-          try "create v$N.0.2 at parent through the refs API" \
-            gh api "repos/$REPO/git/refs" -f ref="refs/tags/v$N.0.2" -f sha="$parent"
-          try "fast-forward v$N.0.2 to head" \
-            gh api -X PATCH "repos/$REPO/git/refs/tags/v$N.0.2" -f sha="$head" -F force=false
-          try "force v$N.0.2 to head" \
-            gh api -X PATCH "repos/$REPO/git/refs/tags/v$N.0.2" -f sha="$head" -F force=true
-          try "delete v$N.0.2" \
-            gh api -X DELETE "repos/$REPO/git/refs/tags/v$N.0.2"
-          try "create v$N/nested at parent" \
-            gh api "repos/$REPO/git/refs" -f ref="refs/tags/v$N/nested" -f sha="$parent"
-          try "fast-forward v$N/nested to head" \
-            gh api -X PATCH "repos/$REPO/git/refs/tags/v$N/nested" -f sha="$head" -F force=false
+          try "create v$N.0.2 through the refs API" create "v$N.0.2" "$parent"
+          try "create v$N/nested through the refs API" create "v$N/nested" "$parent"
+          try "fast-forward v$N/nested" ff "v$N/nested" "$head"
+
+          echo "-- other tags (tag-protection only)"
+          try "create p$N through the refs API" create "p$N" "$parent"
+          try "fast-forward p$N" ff "p$N" "$head"
+          try "delete p$N" del "p$N"
+          try "create p$N/nested through the refs API" create "p$N/nested" "$parent"
+          try "fast-forward p$N/nested" ff "p$N/nested" "$head"
+          try "delete p$N/nested" del "p$N/nested"
+
+          echo "-- the admin's v tag"
+          try "fast-forward $ADMIN_TAG" ff "$ADMIN_TAG" "$head"
+          try "delete $ADMIN_TAG" del "$ADMIN_TAG"
+
           echo
           echo "tags now:"
-          gh api "repos/$REPO/git/matching-refs/tags/v$N" --jq '.[] | "\(.ref) \(.object.sha[0:7])"'
+          gh api "repos/$REPO/git/refs/tags" --jq '.[] | "\(.ref) \(.object.sha[0:7])"'
           echo "releases now:"
           gh api "repos/$REPO/releases" --jq '.[] | "\(.tag_name) draft=\(.draft) immutable=\(.immutable)"'
