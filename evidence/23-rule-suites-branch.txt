@@ -1,0 +1,112 @@
+refs/heads/trunk-a d23aaff -> 0ea71b2: bypass
+    main-protection code_scanning fail
+    main-protection deletion pass
+    main-protection non_fast_forward pass
+    main-protection pull_request fail
+    main-protection required_linear_history pass
+    main-protection required_status_checks fail
+refs/heads/trunk-a 0ea71b2 -> 64a67a6: bypass
+    main-protection code_scanning fail
+    main-protection deletion pass
+    main-protection non_fast_forward pass
+    main-protection pull_request fail
+    main-protection required_linear_history pass
+    main-protection required_status_checks fail
+refs/heads/trunk-a 64a67a6 -> c51a2bf: bypass
+    main-protection code_scanning fail
+    main-protection deletion pass
+    main-protection non_fast_forward pass
+    main-protection pull_request fail
+    main-protection required_linear_history fail
+    main-protection required_status_checks fail
+refs/heads/trunk-a c51a2bf -> 0ea71b2: bypass
+    main-protection code_scanning fail
+    main-protection deletion pass
+    main-protection non_fast_forward fail
+    main-protection pull_request fail
+    main-protection required_linear_history pass
+    main-protection required_status_checks fail
+refs/heads/trunk-a 0ea71b2 -> d23aaff: bypass
+    main-protection code_scanning fail
+    main-protection deletion pass
+    main-protection non_fast_forward fail
+    main-protection pull_request fail
+    main-protection required_linear_history pass
+    main-protection required_status_checks fail
+refs/heads/trunk-a d23aaff -> 0000000: bypass
+    main-protection code_scanning pass
+    main-protection deletion fail
+    main-protection non_fast_forward pass
+    main-protection pull_request pass
+    main-protection required_linear_history pass
+    main-protection required_status_checks pass
+refs/heads/trunk-a 0000000 -> 0000000: bypass
+    main-protection code_scanning pass
+    main-protection deletion fail
+    main-protection non_fast_forward pass
+    main-protection pull_request pass
+    main-protection required_linear_history pass
+    main-protection required_status_checks pass
+refs/heads/trunk-b d23aaff -> 0ea71b2: bypass
+    main-history-protection deletion pass
+    main-history-protection non_fast_forward pass
+    main-history-protection required_linear_history pass
+    main-protection code_scanning fail
+    main-protection pull_request fail
+    main-protection required_status_checks fail
+refs/heads/trunk-b 0ea71b2 -> 64a67a6: bypass
+    main-history-protection deletion pass
+    main-history-protection non_fast_forward pass
+    main-history-protection required_linear_history pass
+    main-protection code_scanning fail
+    main-protection pull_request fail
+    main-protection required_status_checks fail
+refs/heads/trunk-b 64a67a6 -> c51a2bf: fail
+    main-history-protection deletion pass
+    main-history-protection non_fast_forward pass
+    main-history-protection required_linear_history fail
+    main-protection code_scanning fail
+    main-protection pull_request fail
+    main-protection required_status_checks fail
+refs/heads/trunk-b 64a67a6 -> 0ea71b2: fail
+    main-history-protection deletion pass
+    main-history-protection non_fast_forward fail
+    main-history-protection required_linear_history pass
+    main-protection code_scanning fail
+    main-protection pull_request fail
+    main-protection required_status_checks fail
+refs/heads/trunk-b 64a67a6 -> d23aaff: fail
+    main-history-protection deletion pass
+    main-history-protection non_fast_forward fail
+    main-history-protection required_linear_history pass
+    main-protection code_scanning fail
+    main-protection pull_request fail
+    main-protection required_status_checks fail
+refs/heads/trunk-b 64a67a6 -> 0000000: fail
+    main-history-protection deletion fail
+    main-history-protection non_fast_forward pass
+    main-history-protection required_linear_history pass
+    main-protection code_scanning pass
+    main-protection pull_request pass
+    main-protection required_status_checks pass
+refs/heads/trunk-b 64a67a6 -> 0000000: fail
+    main-history-protection deletion fail
+    main-history-protection non_fast_forward pass
+    main-history-protection required_linear_history pass
+    main-protection code_scanning pass
+    main-protection pull_request pass
+    main-protection required_status_checks pass
+refs/heads/trunk-c d23aaff -> 0ea71b2: fail
+    main-history-protection deletion pass
+    main-history-protection non_fast_forward pass
+    main-history-protection required_linear_history pass
+    main-protection code_scanning fail
+    main-protection pull_request fail
+    main-protection required_status_checks fail
+refs/heads/trunk-c d23aaff -> 0ea71b2: fail
+    main-history-protection deletion pass
+    main-history-protection non_fast_forward pass
+    main-history-protection required_linear_history pass
+    main-protection code_scanning fail
+    main-protection pull_request fail
+    main-protection required_status_checks fail

@@ -1,6 +1,6 @@
 # ruleset-probe
 
-Scratch repository. It exists to test, by attempt, how GitHub tag rulesets behave,
+Scratch repository. It exists to test, by attempt, how GitHub rulesets behave,
 so the repository standard states what GitHub does rather than what its
 documentation implies.
 

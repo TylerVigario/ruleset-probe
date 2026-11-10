@@ -1,0 +1,2 @@
+== phase C: the split, main-protection's bypass removed
+updated 26991792 main-protection: pull_request, required_status_checks, code_scanning; bypass []

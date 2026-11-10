@@ -75,3 +75,34 @@ as a release's are, with the expected author set to the account that made them:
 | `package-lock.json`'s root package left at the old version | refused: the version |
 | the release still a draft | refused: no published release (404) |
 | an unsigned commit through the git data API | refused: `false unsigned` |
+
+## A branch bypass reaches every rule in its ruleset
+
+Measured 2026-11-10 (UTC) on `trunk-a`, `trunk-b` and `trunk-c`, each created at
+`d23aaff` before any branch ruleset existed. The admin role stands in for the
+release App, as above. The payloads in `rulesets/branch-*.json` are the website's
+`main.json` with three things changed: `include` is `refs/heads/trunk-*` instead of
+`~DEFAULT_BRANCH`, the bypass actor is the admin role, and the one required check is
+`Never reports`, which nothing reports. Each attempt starts where the one before it
+left the branch (`evidence/branch-probe.sh`).
+
+| Attempt, as the bypass actor | One ruleset, bypass on it | Split: bypass on the merge rules only | Split, no bypass |
+| --- | --- | --- | --- |
+| refs API `force=false` fast-forward, the release's move | allowed | allowed | refused: pull request, required check, code scanning |
+| `git push` fast-forward | allowed | allowed | refused: the same three |
+| `git push` of a merge commit, as a fast-forward | allowed | refused: `This branch must not contain merge commits` | |
+| `git push --force` backward | allowed | refused: `Cannot force-push to this branch` | |
+| refs API `force=true` backward | allowed | refused: the same | |
+| refs API delete | allowed | refused: `Cannot delete this branch` | |
+| `git push` delete | void: already deleted | refused: the same | |
+
+The split is `main-protection` holding `pull_request`, `required_status_checks` and
+`code_scanning`, with the bypass, beside `main-history-protection` holding
+`deletion`, `non_fast_forward` and `required_linear_history`, with none.
+
+The rule log says it in its own terms (`evidence/23-rule-suites-branch.txt`). Under
+one ruleset, the merge commit, both rewinds and the delete each record
+`required_linear_history`, `non_fast_forward` or `deletion` as `fail`, and the push
+as `bypass`. Under the split, the release's move records `main-protection`'s three
+rules as `fail` and the push as `bypass`, with `main-history-protection`'s three as
+`pass`: a linear fast-forward needs nothing from them.

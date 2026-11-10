@@ -1,0 +1,3 @@
+== phase B: the split
+created 26991816 main-history-protection: deletion, non_fast_forward, required_linear_history; bypass []
+updated 26991792 main-protection: pull_request, required_status_checks, code_scanning; bypass [RepositoryRole 5]
