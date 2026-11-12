@@ -1,0 +1,16 @@
+name: t6-mixed
+on:
+  push:
+    branches: [theme2b]
+# No workflow-level permissions; one job declares, one does not.
+jobs:
+  a:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - run: echo "RESULT t6 a"
+  b:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "RESULT t6 b"

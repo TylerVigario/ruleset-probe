@@ -1,0 +1,19 @@
+name: t3-job-replaces
+on:
+  push:
+    branches: [theme2b]
+# The workflow grants two reads; one job names a permission of its own.
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  granted:
+    runs-on: ubuntu-24.04
+    permissions:
+      issues: write
+    steps:
+      - run: echo "RESULT granted job ran"
+  inherits:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "RESULT inheriting job ran"

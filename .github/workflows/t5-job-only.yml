@@ -1,0 +1,12 @@
+name: t5-job-only
+on:
+  push:
+    branches: [theme2b]
+# No workflow-level permissions; every job declares its own.
+jobs:
+  a:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - run: echo "RESULT t5 a"

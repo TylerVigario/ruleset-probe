@@ -1,0 +1,13 @@
+name: echo-env
+description: Prints its input through an environment variable
+inputs:
+  text:
+    description: Anything
+    required: true
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        TEXT: ${{ inputs.text }}
+      run: echo "RESULT $TEXT"

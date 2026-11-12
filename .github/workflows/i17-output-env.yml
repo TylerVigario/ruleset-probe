@@ -1,0 +1,16 @@
+name: i17-output-env
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  j:
+    runs-on: ubuntu-24.04
+    steps:
+      - id: t
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+      - env:
+          T: ${{ steps.t.outputs.title }}
+        run: echo "RESULT $T"
