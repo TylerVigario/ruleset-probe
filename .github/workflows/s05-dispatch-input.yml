@@ -1,0 +1,13 @@
+name: s05-dispatch-input
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        type: string
+permissions:
+  contents: read
+jobs:
+  j:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "${{ inputs.note }}"

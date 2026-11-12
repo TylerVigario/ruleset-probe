@@ -1,0 +1,11 @@
+name: echo
+description: Prints its input
+inputs:
+  text:
+    description: Anything
+    required: true
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "${{ inputs.text }}"

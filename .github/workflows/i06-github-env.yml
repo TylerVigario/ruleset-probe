@@ -1,0 +1,13 @@
+name: i06-github-env
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  j:
+    runs-on: ubuntu-24.04
+    steps:
+      - env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: echo "BODY=$BODY" >> "$GITHUB_ENV"
+      - run: echo "RESULT INJECTED_VAR=${INJECTED_VAR:-unset}"

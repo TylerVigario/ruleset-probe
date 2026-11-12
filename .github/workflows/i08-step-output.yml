@@ -1,0 +1,14 @@
+name: i08-step-output
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  j:
+    runs-on: ubuntu-24.04
+    steps:
+      - id: t
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+      - run: echo "${{ steps.t.outputs.title }}"
