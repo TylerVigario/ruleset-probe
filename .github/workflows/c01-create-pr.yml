@@ -1,0 +1,20 @@
+name: c01-create-pr
+on:
+  push:
+    branches: [theme2d]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  j:
+    runs-on: ubuntu-24.04
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          ref="c01-$GITHUB_RUN_ID"
+          gh api -X POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/heads/$ref" -f sha="$GITHUB_SHA" > /dev/null; echo "RESULT ref exit=$?"
+          out=$(gh api -X POST "repos/$GITHUB_REPOSITORY/pulls" -f head="$ref" -f base=main -f title=probe -f body=probe 2>&1); rc=$?
+          echo "RESULT create exit=$rc"; echo "$out" | head -3
+          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/$ref"; echo "RESULT delete exit=$?"
