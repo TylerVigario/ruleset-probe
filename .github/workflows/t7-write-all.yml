@@ -1,0 +1,10 @@
+name: t7-write-all
+on:
+  pull_request:
+# Declares every permission at write: present, and the widest there is.
+permissions: write-all
+jobs:
+  j:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "RESULT t7"
