@@ -5,3 +5,4 @@ trailer test 4
 trailer test 5
 trailer test 6
 trailer test 7
+trailer test 8
