@@ -1,0 +1,1 @@
+Theme 8: does a sign-off survive a squash with a blank body?
