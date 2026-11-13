@@ -1,0 +1,1 @@
+Theme 8: does the web sign-off setting sign off the squash commit?
