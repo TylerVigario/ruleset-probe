@@ -1,0 +1,15 @@
+name: lock-run-only
+
+# Lockfile probe: a workflow with only run: steps and no action at all.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "lock-run-only ran"

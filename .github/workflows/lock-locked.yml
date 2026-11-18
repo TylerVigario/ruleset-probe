@@ -1,0 +1,19 @@
+name: lock-locked
+
+# Lockfile probe: a workflow that uses one action, pinned by full SHA.
+# lock-locked is recorded in actions.lock; lock-unlisted is left out of it.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: echo "lock-locked ran at $(git rev-parse --short HEAD)"
